@@ -1,0 +1,472 @@
+﻿@* layout belirtmedik.çünkü viewstart dosyasında layoutunu belirtiyoruz *@
+@{
+    ViewBag.Title = "Index";
+
+}
+
+@using MyEvernote.Entities
+
+
+@model List<MyEvernote.Entities.Note>
+
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Partial("_PartialCategories")    <!--partial view'i çağırdık-->
+        </div>
+
+
+
+        <div class="col-md-9">
+            <div class="row carousel-holder">
+                <div class="col-md-12">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                            </div>
+                        </div>
+                        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                @foreach (Note note in Model)
+                {
+
+                    //data-node-id ekledik
+                    <div class="col-sm-4 col-lg-4 col-md-4" data-noteid="@note.Id">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/320x150" alt="@note.Title">
+                            <div class="caption">
+                                <h6 class="text-right">
+                                    <span class="glyphicon glyphicon-user"></span>@note.Owner.UserName<br />
+                                    <span class="glyphicon glyphicon-time"></span>@note.ModifiedOn.ToString("dd.MM.yy HH:mm")<br />
+                                </h6>
+                                <h4>
+                                    <a href="#">@note.Title</a>
+                                </h4>
+
+
+
+                                @if (string.IsNullOrEmpty(note.Text) == false && note.Text.Length > 30)
+                                {
+                                    <p> @(note.Text.Substring(0, 30) + "...") </p>
+                                    <p><a href="#" class="btn btn-default btn-sm" data-target="#modal_notedetail" data-toggle="modal" data-noteid="@note.Id">Devamı <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+                                }
+                                else
+                                {
+                                    <p> @note.Text</p>
+                                }
+
+
+
+                            </div>
+                            <div>
+                                <hr />
+                            </div>
+
+                            <div class="ratings">
+                                <p class="pull-right">
+                                    @* modal popup için --> data-target="#modal_comment" data-toggle="modal" ekledik  *@
+                                    <button data-noteid="@note.Id" class="btn btn-default  btn-sm" type="button" data-target="#modal_comment" data-toggle="modal"><span class="glyphicon glyphicon-comment"></span>Yorumlar</button>
+                                </p>
+
+                                <p>
+                                    @* data-liked ekledik *@
+                                    <button class="btn btn-default btn-sm" type="button" data-liked="false" data-noteid="@note.Id">
+                                        <span class="glyphicon glyphicon-star-empty like-star"></span>&nbsp;
+                                        <span class="like-count">@note.LikeCount</span>
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section footer{
+
+    @* partial view çağırdık *@
+    @Html.Partial("_PartialFooter")
+
+}
+
+
+
+
+@*modal popup gösteren helper metod   *@
+@Bootstrap.ModalPopup(id: "modal_comment", title: "Yorumlar")
+@Bootstrap.ModalPopup(id: "modal_notedetail", title: "Note Detayı")
+
+
+
+
+<script src="~/js/jquery.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+
+<script>
+
+    //global değişkenler
+    var modalCommentBodyId = "#modal_comment_body";
+    var noteid = -1;
+
+    $(document).ready(function () {
+
+        //modal popup olduğunda
+        $("#modal_comment").on('show.bs.modal', function (e) {//e -->hangi butona bastığımızı söylüyor.
+            //console.log('test');
+
+            var btn = $(e.relatedTarget); //tıklanan butonu yakaladık
+
+            noteid = btn.data("noteid");//tıklanan butondaki data-id attributendaki değeri okuduk//  <button data-noteid="note.Id"
+
+            //Partial view'i getir.
+            $("#modal_comment_body").load("/Comment/ShowNoteComments/" + noteid); ///Comment controllerdaki ShowNoteComments actionını çağırıp  Partial view'i bu elementin içine bascak
+
+
+        });
+
+
+
+
+        //modal popup olduğunda
+        $("#modal_notedetail").on('show.bs.modal', function (e) {//e -->hangi butona bastığımızı söylüyor.
+            //console.log('test');
+
+            var btn = $(e.relatedTarget); //tıklanan butonu yakaladık
+
+            noteid = btn.data("noteid");//tıklanan butondaki data-id attributendaki değeri okuduk//  <button data-noteid="note.Id"
+
+            //Partial view'i getir.
+            $("#modal_notedetail_body").load("/Note/GetNoteText/" + noteid); ///Note controllerdaki GetNoteText actionını çağırıp  Partial view'i bu elementin içine bascak
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+    });
+
+    //_PartialComments.cshtml -->>    bu şekilde yazmıştık
+    @*<button type="button" class="btn btn-warning btn-xs" data-edit-mode="false" onclick="doComment(this,'edit_clicked',@item.Id,'#comment_text_@item.Id');">
+            <span class="glyphicon glyphicon-edit"></span>*@
+    function doComment(btn, e, commentid, spanid) {
+
+        var button = $(btn);//elementi jquerye çevirdik.
+        var mode = button.data("edit-mode");
+
+
+        if (e == "edit_clicked") {
+            if (!mode) {
+                button.data("edit-mode", true);//attributea değer atadık  ////data-edit-mode="true"
+                button.removeClass("btn-warning"); //classsı sildik
+                button.addClass("btn-success");
+
+                var btnSpan = button.find("span");
+                btnSpan.removeClass("glyphicon-edit");
+                btnSpan.addClass("glyphicon-ok");
+
+                $(spanid).attr("contenteditable", true);//attributea değer atadık
+                $(spanid).focus();
+            }
+            else {
+
+                button.data("edit-mode", false);//attributea değer atadık
+                button.addClass("btn-warning"); //classsı sildik
+                button.removeClass("btn-success");
+
+                var btnSpan = button.find("span");
+                btnSpan.addClass("glyphicon-edit");
+                btnSpan.removeClass("glyphicon-ok");
+
+                $(spanid).attr("contenteditable", false);//attributea değer atadık
+
+
+                var txt = $(spanid).text();//değeri al
+
+                //UPDATE İŞLEMİ
+
+                $.ajax({
+                    method: "POST",
+                    url: "/Comment/Edit/" + commentid,
+                    data: { text: txt }
+
+
+                }).done(function (data) { //başarılı ise //actiondan gelen veri datanın içindedir.//Controllerda  return Json(new { result = true }, JsonRequestBehavior.AllowGet); bu şekilde geliyor. json veriyi alıp kontrol edicez.
+
+                    if (data.result) {
+                        //yorumlar partial tekrar yüklenir
+                        $("#modal_comment_body").load("/Comment/ShowNoteComments/" + noteid);
+
+
+                    } else {
+                        alert("Yorum güncellenemedi");
+                    }
+
+
+
+                }).fail(function () {//hatalı ise
+                    alert("Sunucu ile bağlantı kurulamadı");
+                });
+
+
+
+
+
+
+            }
+
+
+
+
+        }
+        else if (e == "delete_clicked") {
+            var dialog_res = confirm("Yorum Silinsin mi?");
+
+            if (!dialog_res) {
+                return false;
+            }
+
+
+            //silme yapıcaz
+            $.ajax({
+                method: "GET",
+                url: "/Comment/Delete/" + commentid,
+
+            }).done(function (data) {
+
+
+                if (data.result) {
+                    //yorumlar partial tekrar yüklenir
+                    $("#modal_comment_body").load("/Comment/ShowNoteComments/" + noteid);
+
+
+                } else {
+                    alert("Yorum Silinemedi");
+                }
+
+
+
+            }).fail(function () {
+                alert("Sunucu ile bağlantı kurulamadı");
+            });
+
+
+
+
+        }
+        else if (e == "new_clicked") {//yeni yorum ekleme
+
+            var txt = $("#new_comment_text").val();//değeri al
+
+            $.ajax({
+                method: "POST",
+                url: "/Comment/Create/",
+                data: { "text": txt, "noteid": noteid }  //json verisi yolladık
+
+            }).done(function (data) {
+
+
+                if (data.result) {
+                    //yorumlar partial tekrar yüklenir
+                    $("#modal_comment_body").load("/Comment/ShowNoteComments/" + noteid);
+
+
+                } else {
+                    alert("Yorum Eklenemedi");
+                }
+
+
+
+            }).fail(function () {
+                alert("Sunucu ile bağlantı kurulamadı");
+            });
+
+
+
+        }
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+@* LIKE İŞLEMLERİ İÇİN  *@
+<script>
+
+
+    $(document).ready(function () {
+
+        var noteids = []; //boş dizi
+
+        //divin içindeki data-node-id elemenlarının içinde gez.foreach gibi
+        $("div[data-noteid]").each(function (i, e) { //içindeki her bir eleman e 'dir.
+
+
+            noteids.push($(e).data("noteid"));//diziye tüm nodeidleri attık
+        });
+        console.log(noteids);
+
+
+        $.ajax({
+            method: "POST",
+            url: "/Note/GetLiked",
+            // data: { getdizi: noteids },//node idleri yolladık actiona
+            contentType: 'application/json',
+            data: JSON.stringify({ //dizi yolladık jsonla
+
+                getdizi: noteids
+            })
+        }).done(function (gelenVeri) {//actiondan gelen veri.
+
+            if (gelenVeri.result != null && gelenVeri.result.length > 0) {
+                for (var i = 0; i < gelenVeri.result.length; i++) {
+                    var id = gelenVeri.result[i];
+
+                    var likedNote = $("div[data-noteid=" + id + "]");//div i bulduk
+                    var btn = likedNote.find("button[data-liked]");
+                    var span = btn.children().first();
+
+                    btn.data("liked", true);
+                    span.removeClass("glyphicon-star-empty");
+                    span.addClass("glyphicon-star"); //yıldızı dolu yaptık
+
+
+
+
+                }
+            }
+
+
+        }).fail(function () {
+
+        });
+
+
+
+
+        $("button[data-liked]").click(function () {
+
+            var btn = $(this);//tıkladığımız butonu verir
+
+            var liked = btn.data("liked");     //data-liked="false" data-noteid="note.Id">   -->değerleri aldık
+            var noteid = btn.data("noteid");
+
+            //var spanStar = btn.children().first(); //ilk spanı aldık
+            var spanStar = btn.find("span.like-star"); //ilk spanı aldık
+            var spanCount = btn.find("span.like-count");//ikinci spanı aldık
+
+            console.log(liked);
+            console.log("like count" + spanCount.text());
+
+
+            $.ajax({
+                method: "POST",
+                url: "/Note/SetLikeState",
+                data: { "noteid": noteid, "liked": !liked } //json verisi yolladık
+
+
+
+
+            }).done(function (data) {//actiondan gelen json verisi
+
+                console.log(data);
+
+                if (data.hasError) {
+                    alert(data.errorMessage);
+                } else {
+
+                    liked = !liked;
+                    btn.data("liked", liked);
+                    spanCount.text(data.result);
+
+                    spanStar.removeClass("glyphicon-star-empty");
+                    spanStar.removeClass("glyphicon-star");
+
+
+                    if (liked) {
+                        spanStar.addClass("glyphicon-star");
+                    } else {
+                        spanStar.addClass("glyphicon-star-empty");
+                    }
+
+
+
+
+                }
+
+
+
+            }).fail(function () {
+
+                alert("Sunucu ile bağlantı kurulamadı!");
+
+
+
+            });
+
+
+
+
+
+        });
+
+
+
+
+
+
+
+
+
+    });
+
+</script>

@@ -1,0 +1,4 @@
+C:\Users\RAMAZAN\Desktop\MyEvernoteSolution\MyEvernote.Entities\bin\Debug\MyEvernote.Entities.dll
+C:\Users\RAMAZAN\Desktop\MyEvernoteSolution\MyEvernote.Entities\bin\Debug\MyEvernote.Entities.pdb
+C:\Users\RAMAZAN\Desktop\MyEvernoteSolution\MyEvernote.Entities\obj\Debug\MyEvernote.Entities.dll
+C:\Users\RAMAZAN\Desktop\MyEvernoteSolution\MyEvernote.Entities\obj\Debug\MyEvernote.Entities.pdb

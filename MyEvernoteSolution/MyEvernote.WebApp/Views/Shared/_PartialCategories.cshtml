@@ -1,0 +1,26 @@
+﻿@* namespaceler *@
+@using MyEvernote.BusinessLayer
+@using MyEvernote.Entities
+
+
+@{
+    //CategoryManager cm = new CategoryManager();
+    List<Category> list = MyEvernote.WebApp.Models.CacheHelper.GetCategoriesFromCache(); //cacheden okuyup bastık
+
+   
+
+
+
+}
+
+<p class="lead">Kategoriler</p>
+<div class="list-group">
+    <a href="/Home/Index" class="list-group-item"><span class="glyphicon glyphicon-arrow-right"></span>Tümü</a>
+    
+    @foreach (Category cat in list)
+{
+    <a href="/Home/ByCategory/@cat.Id" title="@cat.Description" class="list-group-item"> <span class="glyphicon glyphicon-arrow-right"></span>@cat.Title</a>
+}
+
+
+</div>

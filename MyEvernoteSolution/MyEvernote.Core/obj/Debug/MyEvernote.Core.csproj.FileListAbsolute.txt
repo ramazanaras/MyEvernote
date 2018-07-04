@@ -1,0 +1,5 @@
+C:\Users\RAMAZAN\Desktop\MyEvernoteSolution\MyEvernote.Core\bin\Debug\MyEvernote.Core.dll
+C:\Users\RAMAZAN\Desktop\MyEvernoteSolution\MyEvernote.Core\bin\Debug\MyEvernote.Core.pdb
+C:\Users\RAMAZAN\Desktop\MyEvernoteSolution\MyEvernote.Core\obj\Debug\MyEvernote.Core.csprojResolveAssemblyReference.cache
+C:\Users\RAMAZAN\Desktop\MyEvernoteSolution\MyEvernote.Core\obj\Debug\MyEvernote.Core.dll
+C:\Users\RAMAZAN\Desktop\MyEvernoteSolution\MyEvernote.Core\obj\Debug\MyEvernote.Core.pdb

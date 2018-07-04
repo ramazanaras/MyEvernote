@@ -1,0 +1,60 @@
+﻿@* işlem bildirim ekranları *@
+
+
+@{
+    ViewBag.Title = Model.Title;
+}
+@model      MyEvernote.WebApp.ViewModels.OkViewModel
+
+<span>@Model.Header</span>
+
+<span>@Model.Title</span>
+
+
+
+@foreach (string msg in Model.Items)
+{
+    @msg<br />
+}
+
+
+
+@{
+    string js = string.Empty;
+
+    if (Model.IsRedirecting == true)
+    {
+        js = @"   setTimeout(function myfunction() { window.location = '" + Model.RedirectingUrl + "'; }, " + Model.RedirectingTimeout + ");";
+    }
+}
+
+<script src="~/js/jquery.js"></script>
+<script>
+    //sayfa yüklendikten sonra çalışır
+    $(document).ready(function () {
+        $("footer").parent().hide();  //footerı gizledik
+
+
+        //yukarıdaki htmli olduğu gibi ekliyoruz.yukarıda ne görüyorsan o şekilde ekle dedik.
+        @Html.Raw(js)
+
+
+        //setTimeout(function myfunction() {
+
+        //    window.location = "/Home/Index";//3 saniye sonra Home controllerdaki Index actionına yönlendir
+
+        //}, 3000);  //3 saniye sonra fonksyionu çalıştır
+
+
+
+
+
+
+
+
+    });
+
+
+
+
+</script>

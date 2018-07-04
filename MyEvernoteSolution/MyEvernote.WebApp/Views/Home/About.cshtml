@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "About";
+}
+
+@* layout belirtmedik.çünkü viewstart dosyasında layoutunu belirtiyoruz *@
+@{
+    ViewBag.Title = "Index";
+
+}
+
+
+
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Partial("_PartialCategories")    <!--partial view'i çağırdık-->
+        </div>
+
+
+
+        <div class="col-md-9">
+            
+            <div class="row">
+                <h2>
+                   Hakkımızda sayfası
+                </h2>
+                <p>asdsadasdasd</p>
+                <p>dasasdfsdfs</p>
+                <p>rwerew</p>
+                <p>fddsfds</p>
+                <p>ewerwrw</p>
+           
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section footer{
+
+    @* partial view çağırdık *@
+    @Html.Partial("_PartialFooter")
+
+}

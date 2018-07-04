@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>FakeData</id>
+    <version>1.0.0</version>
+    <title>FakeData</title>
+    <authors>Adam Riddick</authors>
+    <owners>Adam Riddick</owners>
+    <projectUrl>http://www.adamriddick.com/fakedata-realistic-data-generation</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>FakeData is a .Net Library which offers the generation of realistic data for whatever purpose it is required. This could be data for Unit Tests, for the Development Environment or to be used in Client Demo's.</description>
+    <summary>FakeData is a .Net Library which offers the generation of realistic data for whatever purpose it is required. This could be data for Unit Tests, for the Development Environment or to be used in Client</summary>
+    <releaseNotes>Version 1.0.0 - Initial Release</releaseNotes>
+  </metadata>
+</package>

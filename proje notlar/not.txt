@@ -1,0 +1,30 @@
+WebApp projesine ekledik
+Install-Package bootstrap -Version 3.3.7
+Install-Package jQuery -Version 3.2.1
+
+connection string ekledik.veritabaný oluþmasý için
+////////////////////
+
+
+Note iles User arasýnda çoka çok iliþki var.
+
+BusinessLayer  veriyi getiren katmandýr.
+UI DataAcceslayera direk eriþmemeli.UI business katmana eriþip veriyi çekmeli.
+
+//dataAccesslayera manage nugettan entity framework yükle(FirstOrdefault gibi metotlarýn çýkmasý için veya DbContext sýnýfýný kullanabilmek içni falan gerekli)
+dataAccesslayera manage nugettan fakedata yükle
+dataAccesslayera Entitiesi refrencelara ekle.
+
+
+businessslayere entitites ve dataAcceslayerý referanslara ekle
+uý projemize  business ve entities i referanslara ekle
+
+
+
+
+//Uý katmanýna  manage nugettan entity framework yükle
+////business layera manage nugettan entity framework yükle(db.Comments. dedikten sonra Tolist veya Firstordefault gibi metotlarýn çýkmasý için:)
+
+
+
+

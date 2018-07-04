@@ -1,0 +1,23 @@
+
+
+//bootstrap nuget
+Install-Package bootstrap -Version 3.3.7
+
+
+
+Install-Package jQuery -Version 3.2.1
+
+
+
+Install-Package KMBModalLogin -Version 2.4.0
+
+
+
+Install-Package Microsoft.AspNet.Web.Optimization -Version 1.1.3
+
+
+
+
+
+
+Install-Package Microsoft.AspNet.WebHelpers -Version 3.2.3
